@@ -37,12 +37,12 @@ app.patch('/toggle_todo', async (req, res) => {
   res.send(toggleResult.affectedRows ? { ...req.body, completed } : false);
 });
 
-app.delete('/remove_todo', (req, res) => {
-  const removeResult = removeTodo(req.body.id);
+app.delete('/remove_todo', async (req, res) => {
+  const removeResult = await removeTodo(req.body.id);
   res.send(removeResult ? true : false);
 });
 
-app.set('port', process.env.PORT || 3100);
+app.set('port', process.env.PORT || 3003);
 
 app.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + app.get('port'));
