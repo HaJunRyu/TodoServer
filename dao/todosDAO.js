@@ -37,11 +37,11 @@ exports.createTodo = async ({ title, completed = false } = {}) => {
   }
 };
 
-exports.removeTodo = async ({ idTodo }) => {
+exports.removeTodo = async ({ id }) => {
   try {
     const connection = await pool.getConnection(async conn => conn);
     try {
-      const [rows] = await connection.query('DELETE FROM Todo WHERE idTodo = (?)', [idTodo]);
+      const [rows] = await connection.query('DELETE FROM Todo WHERE id = (?)', [id]);
       connection.release();
       return rows;
     } catch (err) {
@@ -57,7 +57,7 @@ exports.updateTodo = async ({ id, title }) => {
   try {
     const connection = await pool.getConnection(async conn => conn);
     try {
-      const [rows] = await connection.query('UPDATE Todo SET title = (?) WHERE idTodo = (?)', [
+      const [rows] = await connection.query('UPDATE Todo SET title = (?) WHERE id = (?)', [
         title,
         id
       ]);
@@ -76,7 +76,7 @@ exports.toggleTodo = async ({ id, completed }) => {
   try {
     const connection = await pool.getConnection(async conn => conn);
     try {
-      const [rows] = await connection.query('UPDATE Todo SET completed = (?) WHERE idTodo = (?)', [
+      const [rows] = await connection.query('UPDATE Todo SET completed = (?) WHERE id = (?)', [
         !completed,
         id
       ]);

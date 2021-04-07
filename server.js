@@ -12,10 +12,11 @@ const { getTodos, createTodo, removeTodo, updateTodo, toggleTodo } = require('./
 app.post('/add_todo', async (req, res) => {
   const createResult = await createTodo(req.body);
 
-  if (!createResult) res.send(false);
+  if (createResult === 'Query Error') res.send(false);
   else {
     // 요청받은 이메일에 해당하는 유저가 있을때 유저 객체 응답
     const { insertId } = createResult;
+    // console.log(inserId);
     const responseObj = { id: insertId, title: req.body.title, completed: false };
     res.send(responseObj);
   }
