@@ -40,7 +40,7 @@ app.patch('/toggle_todo', async (req, res) => {
 
 app.delete('/remove_todo', async (req, res) => {
   const removeResult = await removeTodo(req.body.id);
-  res.send(removeResult ? true : false);
+  res.send(removeResult.affectedRows ? true : false);
 });
 
 app.set('port', process.env.PORT || 3003);

@@ -37,11 +37,11 @@ exports.createTodo = async ({ title, completed = false } = {}) => {
   }
 };
 
-exports.removeTodo = async ({ id }) => {
+exports.removeTodo = async id => {
   try {
     const connection = await pool.getConnection(async conn => conn);
     try {
-      const [rows] = await connection.query('DELETE FROM Todo WHERE id = (?) LIMIT 1', [id]);
+      const [rows] = await connection.query('DELETE FROM Todo WHERE id=(?) LIMIT 1', [id]);
       connection.release();
       return rows;
     } catch (err) {
