@@ -38,9 +38,9 @@ app.patch('/toggle_todo/:id', async (req, res) => {
   res.send(toggleResult.affectedRows ? { ...req.body, completed } : false);
 });
 
-app.delete('/remove_todo', async (req, res) => {
-  const removeResult = await removeTodo(req.body.id);
-  res.send(ㅎremoveResult.affectedRows ? true : false);
+app.delete('/remove_todo:id', async (req, res) => {
+  const removeResult = await removeTodo(req.params.id);
+  res.send(removeResult.affectedRows ? true : false);
 });
 
 app.set('port', process.env.PORT || 3003);
