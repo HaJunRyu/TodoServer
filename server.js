@@ -32,15 +32,15 @@ app.patch('/update_todo', async (req, res) => {
   res.send(updateResult.affectedRows ? req.body : false);
 });
 
-app.patch('/toggle_todo', async (req, res) => {
-  const toggleResult = await toggleTodo(req.body);
-  const completed = !req.body.completed;
+app.patch('/toggle_todo/:id', async (req, res) => {
+  const toggleResult = await toggleTodo(req.params.id);
+  console.log(toggleResult);
   res.send(toggleResult.affectedRows ? { ...req.body, completed } : false);
 });
 
 app.delete('/remove_todo', async (req, res) => {
   const removeResult = await removeTodo(req.body.id);
-  res.send(removeResult.affectedRows ? true : false);
+  res.send(ㅎremoveResult.affectedRows ? true : false);
 });
 
 app.set('port', process.env.PORT || 3003);
