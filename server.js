@@ -38,7 +38,7 @@ app.patch('/toggle_todo/:id', async (req, res) => {
   res.send(toggleResult.affectedRows ? { ...req.body, completed } : false);
 });
 
-app.delete('/remove_todo:id', async (req, res) => {
+app.delete('/remove_todo/:id', async (req, res) => {
   const removeResult = await removeTodo(req.params.id);
   res.send(removeResult.affectedRows ? true : false);
 });
