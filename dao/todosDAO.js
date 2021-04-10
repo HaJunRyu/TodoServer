@@ -20,6 +20,22 @@ exports.getTodos = async () => {
   }
 };
 
+exports.getTodo = async id => {
+  try {
+    const connection = await pool.getConnection(async conn => conn);
+    try {
+      const [rows] = await connection.query('SELECT * FROM Todo WHERE id = (?)', [id]);
+      connection.release();
+      return rows;
+    } catch (err) {
+      connection.release();
+      return 'Query Error';
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 exports.createTodo = async ({ title, completed = false } = {}) => {
   try {
     const connection = await pool.getConnection(async conn => conn);
@@ -74,12 +90,13 @@ exports.updateTodo = async ({ id, title }) => {
   }
 };
 
-// TODO: id만 받게해서 원래 completed값을 반전시키게끔 변경 서브쿼리 활용해야할듯
 exports.toggleTodo = async id => {
   try {
     const connection = await pool.getConnection(async conn => conn);
     try {
-      const rows = await connection.query(
+      const [
+        rows
+      ] = await connection.query(
         'UPDATE Todo SET completed = not (SELECT completed FROM(Select completed as no from Todo WHERE id=(?)) as TodoCompleted) WHERE id=(?)',
         [id, id]
       );

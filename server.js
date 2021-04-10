@@ -7,7 +7,14 @@ app.use(cors());
 
 app.use(express.json());
 
-const { getTodos, createTodo, removeTodo, updateTodo, toggleTodo } = require('./dao/todosDAO');
+const {
+  getTodos,
+  getTodo,
+  createTodo,
+  removeTodo,
+  updateTodo,
+  toggleTodo
+} = require('./dao/todosDAO');
 
 app.post('/add_todo', async (req, res) => {
   const createResult = await createTodo(req.body);
@@ -34,8 +41,9 @@ app.patch('/update_todo', async (req, res) => {
 
 app.patch('/toggle_todo/:id', async (req, res) => {
   const toggleResult = await toggleTodo(req.params.id);
-  console.log(toggleResult);
-  res.send(toggleResult.affectedRows ? { ...req.body, completed } : false);
+  const getTodoResult = await getTodo(req.params.id);
+  const todoObejct = { ...getTodoResult[0], completed: !!getTodoResult[0].completed };
+  res.send(toggleResult.affectedRows ? todoObejct : false);
 });
 
 app.delete('/remove_todo/:id', async (req, res) => {
